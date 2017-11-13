@@ -27,6 +27,8 @@
 #include <QApplication>
 #include <QFile>
 
+#include <climits>
+
 #include "time.h"
 
 const char* kDefaultSet = "Default Tile Set";

@@ -23,8 +23,11 @@
 #include <QString>
 #include <QHash>
 #include <QDateTime>
-
+#define __STDC_LIMIT_MACROS
 #include "QGCMapUrlEngine.h"
+
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 
 class QGCCachedTileSet;
 

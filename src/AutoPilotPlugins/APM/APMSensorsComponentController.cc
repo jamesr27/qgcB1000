@@ -591,6 +591,9 @@ void APMSensorsComponentController::nextClicked(void)
                                       &msg,
                                       0,    // command
                                       1,    // result
+                                      0,
+                                      0,
+                                      0,
                                       0);   // progress
 
     _vehicle->sendMessageOnLink(_vehicle->priorityLink(), msg);

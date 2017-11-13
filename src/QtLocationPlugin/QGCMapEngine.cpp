@@ -23,6 +23,8 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDir>
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 #include <stdio.h>
 
 #include "QGCMapEngine.h"

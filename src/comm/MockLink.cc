@@ -860,6 +860,9 @@ void MockLink::_handleCommandLong(const mavlink_message_t& msg)
                                       &commandAck,
                                       request.command,
                                       commandResult,
+                                      0,
+                                      0,
+                                      0,
                                       0);
     respondWithMavlinkMessage(commandAck);
 }
@@ -946,7 +949,12 @@ void MockLink::_sendGpsRawInt(void)
                                       UINT16_MAX, UINT16_MAX,                // HDOP/VDOP not known
                                       UINT16_MAX,                            // velocity not known
                                       UINT16_MAX,                            // course over ground not known
-                                      8);                                    // satellite count
+                                      8,
+                                      (int32_t)(_vehicleAltitude  * 1000),
+                                      (uint32_t)0,
+                                      (uint32_t)0,
+                                      (uint32_t)0,
+                                      (uint32_t)0);                                    // satellite count
     respondWithMavlinkMessage(msg);
 }
 
