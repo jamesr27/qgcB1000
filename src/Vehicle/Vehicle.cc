@@ -53,6 +53,9 @@ const char* Vehicle::_altitudeRelativeFactName =    "altitudeRelative";
 const char* Vehicle::_altitudeAMSLFactName =        "altitudeAMSL";
 const char* Vehicle::_flightDistanceFactName =      "flightDistance";
 const char* Vehicle::_flightTimeFactName =          "flightTime";
+// James adds rpm fact name
+const char* Vehicle::_rotorRpmFactName =            "rotorRpm";
+
 
 const char* Vehicle::_gpsFactGroupName =        "gps";
 const char* Vehicle::_batteryFactGroupName =    "battery";
@@ -156,6 +159,8 @@ Vehicle::Vehicle(LinkInterface*             link,
     , _altitudeAMSLFact     (0, _altitudeAMSLFactName,      FactMetaData::valueTypeDouble)
     , _flightDistanceFact   (0, _flightDistanceFactName,    FactMetaData::valueTypeDouble)
     , _flightTimeFact       (0, _flightTimeFactName,        FactMetaData::valueTypeElapsedTimeInSeconds)
+    // James adds again
+    , _rotorRpmFact         (0, _rotorRpmFactName,          FactMetaData::valueTypeDouble)
     , _gpsFactGroup(this)
     , _batteryFactGroup(this)
     , _windFactGroup(this)
@@ -314,6 +319,8 @@ Vehicle::Vehicle(MAV_AUTOPILOT              firmwareType,
     , _altitudeAMSLFact     (0, _altitudeAMSLFactName,      FactMetaData::valueTypeDouble)
     , _flightDistanceFact   (0, _flightDistanceFactName,    FactMetaData::valueTypeDouble)
     , _flightTimeFact       (0, _flightTimeFactName,        FactMetaData::valueTypeElapsedTimeInSeconds)
+    // James adds again
+    , _rotorRpmFact         (0, _rotorRpmFactName,          FactMetaData::valueTypeDouble)
     , _gpsFactGroup(this)
     , _batteryFactGroup(this)
     , _windFactGroup(this)
@@ -365,6 +372,8 @@ void Vehicle::_commonInit(void)
     _addFact(&_altitudeAMSLFact,        _altitudeAMSLFactName);
     _addFact(&_flightDistanceFact,      _flightDistanceFactName);
     _addFact(&_flightTimeFact,          _flightTimeFactName);
+    // James adds again
+    _addFact(&_rotorRpmFact,            _rotorRpmFactName);
 
     _addFactGroup(&_gpsFactGroup,       _gpsFactGroupName);
     _addFactGroup(&_batteryFactGroup,   _batteryFactGroupName);
@@ -609,6 +618,10 @@ void Vehicle::_mavlinkMessageReceived(LinkInterface* link, mavlink_message_t mes
     case MAVLINK_MSG_ID_WIND:
         _handleWind(message);
         break;
+
+    // James adds handler for rotor rpm
+    case MAVLINK_MSG_ID_ROTORRPM:
+        _handleRotorRpm(message);
     }
 
     // This must be emitted after the vehicle processes the message. This way the vehicle state is up to date when anyone else
@@ -641,6 +654,15 @@ void Vehicle::_handleCameraImageCaptured(const mavlink_message_t& message)
     if (feedback.capture_result == 1) {
         _cameraTriggerPoints.append(new QGCQGeoCoordinate(imageCoordinate, this));
     }
+}
+
+// James adds
+void Vehicle::_handleRotorRpm(mavlink_message_t& message)
+{
+    mavlink_rotorrpm_t rotorRpm;
+    mavlink_msg_rotorrpm_decode(&message,&rotorRpm);
+
+    _rotorRpmFact.setRawValue(qIsNaN(rotorRpm.rpm) ? 0 : rotorRpm.rpm);
 }
 
 void Vehicle::_handleVfrHud(mavlink_message_t& message)

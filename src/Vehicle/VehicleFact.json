@@ -67,5 +67,11 @@
     "shortDescription": "Flight Time",
     "type":             "elapsedSeconds",
     "decimalPlaces":    1
+},
+{
+    "name":             "rotorRpm",
+    "shortDescription": "Rotor Rpm",
+    "type":             "double",
+    "decimalPlaces":    0
 }
 ]

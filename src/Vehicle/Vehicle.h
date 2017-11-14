@@ -343,6 +343,9 @@ public:
     Q_PROPERTY(Fact* altitudeRelative   READ altitudeRelative   CONSTANT)
     Q_PROPERTY(Fact* altitudeAMSL       READ altitudeAMSL       CONSTANT)
     Q_PROPERTY(Fact* flightDistance     READ flightDistance     CONSTANT)
+    // James adds rotor rpm here...
+    Q_PROPERTY(Fact* rotorRpm           READ rotorRpm            CONSTANT)
+
 
     Q_PROPERTY(FactGroup* gps         READ gpsFactGroup         CONSTANT)
     Q_PROPERTY(FactGroup* battery     READ batteryFactGroup     CONSTANT)
@@ -604,6 +607,8 @@ public:
     Fact* altitudeRelative  (void) { return &_altitudeRelativeFact; }
     Fact* altitudeAMSL      (void) { return &_altitudeAMSLFact; }
     Fact* flightDistance    (void) { return &_flightDistanceFact; }
+    // James adds again here
+    Fact* rotorRpm          (void) { return &_rotorRpmFact; }
 
     FactGroup* gpsFactGroup         (void) { return &_gpsFactGroup; }
     FactGroup* batteryFactGroup     (void) { return &_batteryFactGroup; }
@@ -836,6 +841,10 @@ private:
     void _handleScaledPressure3(mavlink_message_t& message);
     void _handleCameraFeedback(const mavlink_message_t& message);
     void _handleCameraImageCaptured(const mavlink_message_t& message);
+
+    // James adds
+    void _handleRotorRpm(mavlink_message_t& message);
+
     void _missionManagerError(int errorCode, const QString& errorMsg);
     void _geoFenceManagerError(int errorCode, const QString& errorMsg);
     void _rallyPointManagerError(int errorCode, const QString& errorMsg);
@@ -1015,6 +1024,8 @@ private:
     Fact _altitudeAMSLFact;
     Fact _flightDistanceFact;
     Fact _flightTimeFact;
+    // James adds again
+    Fact _rotorRpmFact;
 
     VehicleGPSFactGroup         _gpsFactGroup;
     VehicleBatteryFactGroup     _batteryFactGroup;
@@ -1032,6 +1043,8 @@ private:
     static const char* _altitudeAMSLFactName;
     static const char* _flightDistanceFactName;
     static const char* _flightTimeFactName;
+    // James adds again
+    static const char* _rotorRpmFactName;
 
     static const char* _gpsFactGroupName;
     static const char* _batteryFactGroupName;

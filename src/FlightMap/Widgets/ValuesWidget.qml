@@ -72,6 +72,7 @@ QGCFlickable {
         } // Repeater - Large
     } // Column - Large
 
+    // James: This bit draws the selected things to the widget. We must find what this loops through.
     Component {
         id: largeValue
 
